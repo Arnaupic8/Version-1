@@ -1,0 +1,107 @@
+#include <sys/types.h> 
+#include <sys/socket.h> 
+#include <netinet/in.h> 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <mysql.h>
+#include <pthread.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <time.h>
+
+typedef struct
+{
+	int *sock;
+	char Nombre[20];
+	int id;
+} Cliente;
+
+typedef struct
+{
+	Cliente cliente[100];
+	int numero_clientes;
+	int numero_jugadores;
+	
+} Cliente_Lista;
+
+typedef struct {
+	char dato[20];
+	
+}Dato;
+
+typedef struct {
+	int rows;
+	int cols;
+	Dato data[10][10]; 
+} Matriz;
+
+typedef struct {
+	char Nombre[20];
+	int ID;
+	int  Socket;
+	int Points;
+} Jugador;
+
+typedef struct {
+	char Nombre[20];
+	char Mensaje[200];
+} Mensaje;
+
+
+typedef struct {
+	int players[4];
+}Confirmacion;
+;
+
+
+char clientes[300];
+MYSQL *conn;
+Cliente_Lista Cliente;
+int i;
+int Socket[100];
+
+
+
+void conectarBD() {
+	
+	conn = mysql_init(NULL);
+	if (conn==NULL) {
+		printf ("Error al crear la conexion: %u %s\n",
+				mysql_errno(conn), mysql_error(conn));
+		exit (1);
+	}
+	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "JuegoPropio", 0, NULL, 0);
+	//conn = mysql_real_connect (conn, "localhost","root", "mysql", NULL, 0, NULL, 0);
+	if (conn==NULL)
+	{
+		printf ("Error al inicializar la conexion: %u %s\n",
+				mysql_errno(conn), mysql_error(conn));
+		exit (1);
+	}
+}
+
+void ejecutarConsultaSQL(char *sql) {
+	if (mysql_query(conn, sql) != 0) {
+		fprintf(stderr, "Error en la consulta: %s\n", mysql_error(conn));
+		mysql_close(conn);
+		exit(EXIT_FAILURE);
+	}
+}
+
+
+
+
+int main( int argc, char *argv[])
+	/* conectarBD(); */
+	/*ejecutarConsultaSQL("DROP DATABASE IF EXISTS JuegoPropio");*/
+	/*ejecutarConsultaSQL("CREATE DATABASE JuegoPropio"); */
+/*	ejecutarConsultaSQL("USE JuegoPropio"); */
+/*	ejecutarConsultaSQL("CREATE TABLE Jugador(id INTEGER PRIMARY KEY AUTO_INCREMENT, Nombre varchar(20) not null, CONTRASENYA varchar(20)not null)"); */
+	/*ejecutarConsultaSQL("CREATE TABLE MedallasObtenidas(id integer primary key AUTO_INCREMENT, Medallas integer, Jugador integer,foreign key (Jugador) references Jugador(id))");*/
+	/*	ejecutarConsultaSQL( "INSERT INTO 			*/
