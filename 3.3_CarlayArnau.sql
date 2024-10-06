@@ -7,13 +7,18 @@ USE JuegoPropio;
 CREATE TABLE Jugador (
 id INTEGER PRIMARY KEY NOT NULL,
 Nombre TEXT NOT NULL
+Contrase￱a TEXT NOT NULL
 )ENGINE = InnoDB;
 
+CREATE TABLE PartidasGanadas (
+id INTEGER PRIMARY KEY NOT NULL,
+Victorias INTEGER PRIMARY KEY NOT NULL
+}ENGINE = InnoDB;
 
 CREATE TABLE MedallasObtenidas (
 Jugador INTEGER NOT NULL,
 Medallas INTEGER NOT NULL,
-FOREIGN KEY (Jugador) REFERENCES Jugador (id)
+FOREIGN KEY (Jugador) REFERENCES Jugador (id),
 )ENGINE = InnoDB;
 
 
@@ -26,9 +31,6 @@ INSERT INTO MedallasObtenidas VALUES(1, 20);
 INSERT INTO MedallasObtenidas VALUES(2, 40);
 INSERT INTO MedallasObtenidas VALUES(3, 5);
 INSERT INTO MedallasObtenidas VALUES(4, 29);
-
-
-
 
 
 
