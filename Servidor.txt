@@ -53,20 +53,42 @@ typedef struct {
 	char Mensaje[200];
 } Mensaje;
 
+typedef struct {
+	Mensaje Mensajes[20];
+	int num_mensajes;
+}Chat;
 
 typedef struct {
 	int players[4];
 }Confirmacion;
-;
+
+typedef struct {
+	Jugador jugadores[4];
+	int numero_Jug;
+	int ID_Loby;
+	Chat chat;
+	Confirmacion confirmacion;
+} Loby;
+
+typedef struct {
+	Loby Lobys[20];
+	int num_Lobys;
+}Lobys;
+
+typedef struct {
+	int idloby;
+}ContadorLoby;
 
 
 char clientes[300];
 MYSQL *conn;
-Cliente_Lista Cliente;
+Cliente_Lista Clis;
+Lobys Lobyreal;
+ContadorLoby Contadoridloby;
 int i;
+int puerto = 9050;
 int Socket[100];
-
-
+char peticion[512];
 
 void conectarBD() {
 	
@@ -96,12 +118,69 @@ void ejecutarConsultaSQL(char *sql) {
 
 
 
-
-int main( int argc, char *argv[])
-	/* conectarBD(); */
-	/*ejecutarConsultaSQL("DROP DATABASE IF EXISTS JuegoPropio");*/
-	/*ejecutarConsultaSQL("CREATE DATABASE JuegoPropio"); */
-/*	ejecutarConsultaSQL("USE JuegoPropio"); */
-/*	ejecutarConsultaSQL("CREATE TABLE Jugador(id INTEGER PRIMARY KEY AUTO_INCREMENT, Nombre varchar(20) not null, CONTRASENYA varchar(20)not null)"); */
-	/*ejecutarConsultaSQL("CREATE TABLE MedallasObtenidas(id integer primary key AUTO_INCREMENT, Medallas integer, Jugador integer,foreign key (Jugador) references Jugador(id))");*/
-	/*	ejecutarConsultaSQL( "INSERT INTO 			*/
+int main (int argc, char *argv[]){
+	
+	
+	conectarBD();
+	char consulta[80];
+	char edads[6];
+	for(i=0; i<6;i++){
+		printf("Escribe el nombre y tu contrase￱a, separados por un blanco\n");
+		err = scanf(" %s %s");
+		if(err! = 5){
+			printf ("Error al introducir los datos \n");
+			exit(1);
+		}
+	}
+	
+	strcpy( consulta, "INSERT INTO Jugador VALUES");
+	strcat(consulta,contrase￱a);
+	strcat(consulta, ",");
+	strcat(consulta, nombre);
+	strcat(consulta, ",");
+	sprintf(edads, "%d",edad);
+	strcat(consulta, edads);
+	strcat(consulta, ");");
+	printf("consulta = %s\n", consulta);
+	
+	if(err!=0){
+		printf("Error al introducir datos de la base %u %s\n");
+		exit(1);
+	}
+	
+	mysql_close(conn); 
+	
+	
+	
+	int sock_conn, sock_listen, ret;
+	struct sockaddr_in_serv_adr;
+	char buff[512];
+	
+	if((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+		printf("Error creant socket");
+	}
+	
+	memset(&serv_adr, 0 , sizeof(serv_adr));
+	serv_adr.sin_family = AF_INET;
+	
+	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
+	
+	serv_adr.sin_port = htons(9050);
+	if(bind(sock_listen, (struct sockaddr*) & serv_adr,sizeof(serv_adr))<0)
+	printf("Error al bind");
+	
+	if(listen(sock_listen,2)<0)
+	printf("Error en el listen");
+	
+	int i;
+	for(i=0;i<7;i++){
+	printf("Escuchando\n");
+	
+	sock_conn = accept(sock_listen,NULL,NULL);
+	printf("He recibido conexion\n");
+	
+	close(sock_conn);
+	
+	
+	}
+}
